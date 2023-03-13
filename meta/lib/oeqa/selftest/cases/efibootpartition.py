@@ -6,7 +6,7 @@
 #
 
 from oeqa.selftest.case import OESelftestTestCase
-from oeqa.utils.commands import bitbake, runqemu
+from oeqa.utils.commands import bitbake, get_bb_var, runqemu
 from oeqa.core.decorator.data import skipIfNotMachine
 import oe.types
 
@@ -15,7 +15,7 @@ class GenericEFITest(OESelftestTestCase):
     @skipIfNotMachine("qemux86-64", "test is qemux86-64 specific currently")
     def test_boot_efi(self):
         cmd = "runqemu nographic serial wic ovmf"
-        if oe.types.qemu_use_kvm(self.td['QEMU_USE_KVM'], self.td["TARGET_ARCH"]):
+        if oe.types.qemu_use_kvm(get_bb_var('QEMU_USE_KVM'), self.td["TARGET_ARCH"]):
             cmd += " kvm"
         image = "core-image-minimal"
 
